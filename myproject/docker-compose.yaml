@@ -1,0 +1,25 @@
+services:
+  web:
+    build: ./django/.
+    ports:
+      - "8000:8000"
+    volumes: 
+      - .:/app
+    depends_on:
+      - db
+    env_file:
+      - .env
+  db:
+    image: postgres:13  # Official PostgreSQL image
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+volumes:
+  postgres_data:
