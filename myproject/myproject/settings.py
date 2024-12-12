@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-ft_&b$68ma3x16#rb+5cl4akiw-7e(o*&y20wu2-uni3shh1ky
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -88,11 +88,11 @@ environ.Env.read_env()  # Reads the .env file
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': env('POSTGRES_DB'),
-        'USER': env('POSTGRES_USER'),
-        'PASSWORD': env('POSTGRES_PASSWORD'),
-        'HOST': env('POSTGRES_HOST', default='db'),  # Default to 'db' if not set
-        'PORT': env('POSTGRES_PORT', default='5432'),  # Default to 5432
+        'NAME': "mydatabase",
+        'USER': "myuser",
+        'PASSWORD': "mypassword",
+        'HOST': "db",  # Default to 'db' if not set
+        'PORT': "5432",  # Default to 5432
     }
 }
 
