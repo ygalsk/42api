@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>42 Users</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .red { color: red; }
+        .green { color: green; }
+    </style>
+</head>
+<body>
+    <h1>42 Users</h1>
+    <p>Total Users: {{ total_users }}</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Login</th>
+                <th>Updated At</th>
+                <th>Correction Points</th>
+                <th>Location</th>
+                <th>Wallet</th>
+                <th>Pool Year</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td class="{% if user.pool_year == '2022' %}red{% elif user.pool_year == '2023' %}green{% endif %}">
+                        {{ user.login }}
+                    </td>
+                    <td>{{ user.updated_at }}</td>
+                    <td>{{ user.correction_point }}</td>
+                    <td>{{ user.location }}</td>
+                    <td>{{ user.wallet }}</td>
+                    <td>{{ user.pool_year }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

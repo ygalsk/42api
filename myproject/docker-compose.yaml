@@ -9,6 +9,8 @@ services:
       - db
     env_file:
       - .env
+    networks:
+      - netty
   db:
     image: postgres:13  # Official PostgreSQL image
     environment:
@@ -21,5 +23,9 @@ services:
       - "5432:5432"
     env_file:
       - .env
+    networks:
+      - netty
 volumes:
   postgres_data:
+networks:
+  netty:

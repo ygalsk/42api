@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_bootstrap5",
     "social_django",
-    "myproject.backends",
 ]
 
 MIDDLEWARE = [
@@ -124,7 +123,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # API Authentication Backends
 AUTHENTICATION_BACKENDS = (
-    'myproject.backends.fortytwo.FortyTwoOAuth2',  # Correct backend for 42 API
     'django.contrib.auth.backends.ModelBackend',  # Default Django authentication
 )
 

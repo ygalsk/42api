@@ -21,6 +21,5 @@ from myapp import views  # Correctly import views from the app
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home, name='home'),  # Map to home view from myapp
-    path('auth/', include('social_django.urls', namespace='social')), # handle api
+    path('', include('myapp.urls')), # handle api
 ]
