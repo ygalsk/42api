@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,6 +40,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django_bootstrap5",
+    "social_django",
+    "myproject.backends",
 ]
 
 MIDDLEWARE = [
@@ -52,9 +56,6 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "myproject.urls"
 
-# myproject/settings.py
-import os
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -65,9 +66,11 @@ TEMPLATES = [
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
-                'django.template.context_processors.request',
+                'django.template.context_processors.request',  # Required for social-auth
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',  # Added for social-auth
+                'social_django.context_processors.login_redirect',  # Added for social-auth
             ],
         },
     },
@@ -79,22 +82,27 @@ WSGI_APPLICATION = "myproject.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-import environ
-
 # Initialize environment variables
 env = environ.Env()
-environ.Env.read_env()  # Reads the .env file
+environ.Env.read_env()  # Read the .env file
 
+# Database settings
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': "mydatabase",
-        'USER': "myuser",
-        'PASSWORD': "mypassword",
-        'HOST': "db",  # Default to 'db' if not set
-        'PORT': "5432",  # Default to 5432
+        'NAME': env('DATABASE_NAME'),
+        'USER': env('DATABASE_USER'),
+        'PASSWORD': env('DATABASE_PASSWORD'),
+        'HOST': env('DATABASE_HOST'),
+        'PORT': env('POSTGRES_PORT', default=5432),
     }
 }
+
+# 42 API credentials
+SOCIAL_AUTH_42_KEY = env('SOCIAL_AUTH_42_KEY')  # Load from .env
+SOCIAL_AUTH_42_SECRET = env('SOCIAL_AUTH_42_SECRET')  # Load from .env
+SOCIAL_AUTH_42_REDIRECT_URI = env('SOCIAL_AUTH_42_REDIRECT_URI')  # Load from .env
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -114,6 +122,15 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# API Authentication Backends
+AUTHENTICATION_BACKENDS = (
+    'myproject.backends.fortytwo.FortyTwoOAuth2',  # Correct backend for 42 API
+    'django.contrib.auth.backends.ModelBackend',  # Default Django authentication
+)
+
+# Redirect after login
+LOGIN_REDIRECT_URL = '/'  # Redirect to home page after login
+LOGOUT_REDIRECT_URL = '/'  # Redirect to home page after logout
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/

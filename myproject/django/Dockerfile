@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y \
 # Install Python dependencies
 RUN python3 -m venv env/bin/activate
 RUN . env/bin/activate
-RUN pip install --no-cache-dir django django-bootstrap5 django-environ psycopg2
+RUN pip install --no-cache-dir django django-bootstrap5 django-environ psycopg2 social-auth-app-django 42api-lib
 COPY . .
 
 # Expose the application port
